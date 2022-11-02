@@ -1,6 +1,6 @@
 package com.weigner.marvel.framework.di
 
-import com.weigner.core.data.network.interceptor.AuthorizationInterceptor
+import com.weigner.marvel.framework.network.interceptor.AuthorizationInterceptor
 import com.weigner.marvel.BuildConfig
 import dagger.Module
 import dagger.Provides
