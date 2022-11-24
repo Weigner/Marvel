@@ -1,4 +1,4 @@
-package com.weigner.core.data.network.interceptor
+package com.weigner.marvel.framework.network.interceptor
 
 import okhttp3.Interceptor
 import okhttp3.Response
