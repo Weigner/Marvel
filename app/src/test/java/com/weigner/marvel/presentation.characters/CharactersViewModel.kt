@@ -5,6 +5,8 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.whenever
 import com.weigner.core.domain.model.Character
 import com.weigner.core.usecase.GetCharactersUseCase
+import com.weigner.testing.MainCoroutineRule
+import com.weigner.testing.model.CharacterFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.count
@@ -16,6 +18,7 @@ import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -26,29 +29,25 @@ import java.lang.RuntimeException
 class CharactersViewModelTest {
 
     @ExperimentalCoroutinesApi
-    val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
 
     @Mock
     lateinit var getCharactersUseCase: GetCharactersUseCase
 
     private lateinit var charactersViewModel: CharactersViewModel
 
+    private val charactersFactory = CharacterFactory()
+
     private val pagingDataCharacters = PagingData.from(
         listOf(
-            Character(
-                "Spider Man",
-                "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
-            ),
-            Character(
-                "Spider Man",
-                "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
-            )
+            charactersFactory.create(CharacterFactory.Hero.ThreeDMan),
+            charactersFactory.create(CharacterFactory.Hero.ABomb),
         )
     )
 
     @Before
     fun setUp() {
-        Dispatchers.setMain(testDispatcher)
         charactersViewModel = CharactersViewModel(getCharactersUseCase)
     }
 
@@ -75,11 +74,4 @@ class CharactersViewModelTest {
 
             charactersViewModel.charactersPagingData("")
         }
-
-    @ExperimentalCoroutinesApi
-    @After
-    fun tearDownDispatcher() {
-        Dispatchers.resetMain()
-        testDispatcher.cleanupTestCoroutines()
-    }
 }
