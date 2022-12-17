@@ -11,7 +11,7 @@ class CharacterFactory {
         )
         Hero.ABomb -> Character(
             "A-Bomb (HAS)",
-            "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/5232158de5b16.jpg"
+            "https://i.annihil.us/u/prod/marvel/i/mg/3/20/5232158de5b16.jpg"
         )
     }
 
