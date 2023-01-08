@@ -44,7 +44,7 @@ android {
             applicationIdSuffix '.debug'
             debuggable true
         }
-        staggin {
+        staging {
             initWith debug
             minifyEnabled true
             applicationIdSuffix '.staggin'
