@@ -16,7 +16,7 @@ apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 android {
     signingConfigs {
         release {
-            storeFile file('C:\\workspace\\GitHub\\Marvel\\store\\marvel_app_key_store.jks')
+            storeFile file('$rootDir/store/marvel_app_key_store.jks')
             storePassword "marvel123"
             keyPassword "marvel123"
             keyAlias 'marvel_app'
