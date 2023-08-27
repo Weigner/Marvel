@@ -18,4 +18,6 @@
 
     <string name="common_try_again">Try again</string>
     <string name="error_loading_more_try_again">Error when trying to load the next page. Try again</string>
+
+    <string name="details_comics_category">Comics</string>
 </resources>
