@@ -10,8 +10,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.weigner.marvel.databinding.FragmentCharactersBinding
+import com.weigner.marvel.presentation.detail.DetailViewArg
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -26,8 +29,7 @@ class CharactersFragment : Fragment() {
     private lateinit var charactersAdapter: CharactersAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ) = FragmentCharactersBinding.inflate(inflater, container, false).apply { _binding = this }.root
 
 
@@ -46,7 +48,20 @@ class CharactersFragment : Fragment() {
     }
 
     private fun initCharactersAdapter() {
-        charactersAdapter = CharactersAdapter()
+        charactersAdapter = CharactersAdapter { character, view ->
+            val extras = FragmentNavigatorExtras(
+                view to character.name
+            )
+
+            val directions = CharactersFragmentDirections.actionCharactersFragmentToDetailFragment(
+                character.name,
+                DetailViewArg(character.name, character.imageUrl)
+            )
+
+            findNavController().navigate(directions, extras)
+
+        }
+
         with(binding.recyclerCharacters) {
             scrollToPosition(0)
             setHasFixedSize(true)
@@ -66,10 +81,12 @@ class CharactersFragment : Fragment() {
                         setShimmerVisibility(true)
                         FLIPPER_CHILD_LOADING
                     }
+
                     is LoadState.NotLoading -> {
                         setShimmerVisibility(false)
                         FLIPPER_CHILD_CHARACTERS
                     }
+
                     is LoadState.Error -> {
                         setShimmerVisibility(false)
                         binding.includeViewCharactersErrorState.buttonRetry.setOnClickListener {
