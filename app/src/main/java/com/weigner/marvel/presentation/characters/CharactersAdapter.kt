@@ -5,14 +5,17 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.weigner.core.domain.model.Character
+import com.weigner.marvel.framework.imageLoader.ImageLoader
 import com.weigner.marvel.util.OnCharacterItemClick
+import javax.inject.Inject
 
-class CharactersAdapter(
+class CharactersAdapter constructor(
+    private val imageLoader: ImageLoader,
     private val onItemClick: OnCharacterItemClick
 ) : PagingDataAdapter<Character, CharactersViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharactersViewHolder {
-        return CharactersViewHolder.create(parent, onItemClick)
+        return CharactersViewHolder.create(parent, imageLoader, onItemClick)
     }
 
     override fun onBindViewHolder(holder: CharactersViewHolder, position: Int) {

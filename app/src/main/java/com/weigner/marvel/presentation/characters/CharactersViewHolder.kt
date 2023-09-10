@@ -8,10 +8,12 @@ import com.bumptech.glide.Glide
 import com.weigner.core.domain.model.Character
 import com.weigner.marvel.R
 import com.weigner.marvel.databinding.ItemCharacterBinding
+import com.weigner.marvel.framework.imageLoader.ImageLoader
 import com.weigner.marvel.util.OnCharacterItemClick
 
 class CharactersViewHolder(
     itemCharactersBinding: ItemCharacterBinding,
+    private val imageLoader: ImageLoader,
     private val onItemClick: OnCharacterItemClick
 ) : RecyclerView.ViewHolder(itemCharactersBinding.root) {
 
@@ -21,10 +23,7 @@ class CharactersViewHolder(
     fun bind(character: Character) {
         textName.text = character.name
         imageCharacter.transitionName = character.name
-        Glide.with(itemView)
-            .load(character.imageUrl)
-            .fallback(R.drawable.ic_img_loading_error)
-            .into(imageCharacter)
+        imageLoader.load(imageCharacter, character.imageUrl, R.drawable.ic_img_loading_error)
 
         itemView.setOnClickListener {
             onItemClick.invoke(character, imageCharacter)
@@ -33,10 +32,11 @@ class CharactersViewHolder(
 
     companion object {
         fun create(parent: ViewGroup,
+                   imageLoader: ImageLoader,
                    onItemClick: OnCharacterItemClick): CharactersViewHolder {
             val inflater = LayoutInflater.from(parent.context)
             val itemBinding = ItemCharacterBinding.inflate(inflater, parent, false)
-            return CharactersViewHolder(itemBinding, onItemClick)
+            return CharactersViewHolder(itemBinding, imageLoader, onItemClick)
         }
     }
 }
