@@ -1,6 +1,8 @@
 package com.weigner.core.data.repository
 
-interface CharactersRemoteDataSource<T> {
+import com.weigner.core.domain.model.CharactersPaging
 
-    suspend fun fetchCharacters(queries: Map<String, String>): T
+interface CharactersRemoteDataSource {
+
+    suspend fun fetchCharacters(queries: Map<String, String>): CharactersPaging
 }
