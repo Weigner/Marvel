@@ -1,22 +1,19 @@
 package com.weigner.marvel.framework.network.response
 
 import com.google.gson.annotations.SerializedName
-import com.weigner.core.domain.model.Character
+import com.weigner.core.domain.model.Comic
 
-data class CharacterResponse(
+data class ComicResponse(
     @SerializedName("id")
     val id: Int,
-
-    @SerializedName("name")
-    val name: String,
 
     @SerializedName("thumbnail")
     val thumbnail: ThumbnailResponse
 )
 
-fun CharacterResponse.toCharacterModel(): Character {
-    return Character(
-        name = this.name,
+fun ComicResponse.toComicModel(): Comic {
+    return Comic(
+        id = this.id,
         imageUrl = "${this.thumbnail.path}.${this.thumbnail.extension}".replace("http", "https")
     )
 }
