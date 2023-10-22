@@ -1,14 +1,14 @@
 package com.weigner.marvel.presentation.detail
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.transition.TransitionInflater
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
 import com.weigner.marvel.R
 import com.weigner.marvel.databinding.FragmentDetailBinding
 import com.weigner.marvel.framework.imageLoader.ImageLoader
@@ -20,6 +20,8 @@ class DetailFragment : Fragment() {
 
     private var _binding: FragmentDetailBinding? = null
     private val binding: FragmentDetailBinding get() = _binding!!
+
+    private val viewModel: DetailViewModel by viewModels()
 
     @Inject
     lateinit var imageLoader: ImageLoader
@@ -43,6 +45,18 @@ class DetailFragment : Fragment() {
         }
 
         setSharedElementTransitionOnEnter()
+
+        viewModel.uiState.observe(viewLifecycleOwner) {uiState ->
+            val logResult = when(uiState) {
+                DetailViewModel.UiStates.Loading -> "Loading comics..."
+                is DetailViewModel.UiStates.Success -> uiState.comics.toString()
+                DetailViewModel.UiStates.Error -> "Error when loading comics"
+            }
+
+            Log.d(DetailFragment::class.simpleName, logResult)
+        }
+
+        viewModel.getComics(detailViewArg.characterId)
     }
 
     private fun setSharedElementTransitionOnEnter() {

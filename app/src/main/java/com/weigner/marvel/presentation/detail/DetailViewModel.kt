@@ -28,7 +28,7 @@ class DetailViewModel @Inject constructor(
 
     private fun Flow<ResultStatus<List<Comic>>>.watchStatus() = viewModelScope.launch {
         collect { status ->
-            when(status) {
+           _uiState.value = when(status) {
                 ResultStatus.Loading -> UiStates.Loading
                 is ResultStatus.Success -> UiStates.Success(status.data)
                 is ResultStatus.Error -> UiStates.Error
