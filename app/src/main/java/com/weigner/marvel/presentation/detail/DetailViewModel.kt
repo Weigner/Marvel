@@ -6,11 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.weigner.core.domain.model.Comic
 import com.weigner.core.usecase.GetComicsUseCase
-import com.weigner.core.usecase.GetComicsUseCaseImpl
 import com.weigner.core.usecase.base.ResultStatus
+import com.weigner.marvel.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,7 +29,16 @@ class DetailViewModel @Inject constructor(
         collect { status ->
            _uiState.value = when(status) {
                 ResultStatus.Loading -> UiStates.Loading
-                is ResultStatus.Success -> UiStates.Success(status.data)
+                is ResultStatus.Success -> {
+                    val detailChildVEList = status.data.map {
+                        DetailChildVE(it.id, it.imageUrl)
+                    }
+                    val detailParentVEList = listOf(
+                        DetailParentVE(R.string.details_comics_category, detailChildVEList)
+                    )
+
+                    UiStates.Success(detailParentVEList)
+                }
                 is ResultStatus.Error -> UiStates.Error
             }
 
@@ -39,7 +47,7 @@ class DetailViewModel @Inject constructor(
 
     sealed class UiStates {
         object Loading : UiStates()
-        data class Success(val comics: List<Comic>) : UiStates()
+        data class Success(val detailParentList: List<DetailParentVE>) : UiStates()
         object Error : UiStates()
     }
 }

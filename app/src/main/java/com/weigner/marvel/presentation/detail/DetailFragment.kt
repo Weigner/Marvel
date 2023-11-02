@@ -2,7 +2,6 @@ package com.weigner.marvel.presentation.detail
 
 import android.os.Bundle
 import android.transition.TransitionInflater
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -47,13 +46,11 @@ class DetailFragment : Fragment() {
         setSharedElementTransitionOnEnter()
 
         viewModel.uiState.observe(viewLifecycleOwner) {uiState ->
-            val logResult = when(uiState) {
-                DetailViewModel.UiStates.Loading -> "Loading comics..."
-                is DetailViewModel.UiStates.Success -> uiState.comics.toString()
-                DetailViewModel.UiStates.Error -> "Error when loading comics"
+            when(uiState) {
+                DetailViewModel.UiStates.Loading -> {}
+                is DetailViewModel.UiStates.Success -> {}
+                DetailViewModel.UiStates.Error -> {}
             }
-
-            Log.d(DetailFragment::class.simpleName, logResult)
         }
 
         viewModel.getComics(detailViewArg.characterId)
