@@ -10,10 +10,10 @@
         android:id="@+id/image_character"
         android:layout_width="0dp"
         android:layout_height="200dp"
+        android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:scaleType="fitXY"
         tools:ignore="ContentDescription"
         tools:srcCompat="@tools:sample/avatars" />
 
@@ -21,14 +21,16 @@
         android:id="@+id/recycler_parent_detail"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:orientation="vertical"
         android:padding="16dp"
         android:scrollbars="horizontal"
-        android:clipToPadding="false"
-        tools:listitem="@layout/item_parent_detail"
-        tools:itemCount="2"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_character" />
+        app:layout_constraintTop_toBottomOf="@+id/image_character"
+        tools:itemCount="2"
+        tools:listitem="@layout/item_parent_detail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
