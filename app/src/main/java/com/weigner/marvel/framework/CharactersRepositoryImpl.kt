@@ -5,6 +5,7 @@ import com.weigner.core.data.repository.CharactersRemoteDataSource
 import com.weigner.core.data.repository.CharactersRepository
 import com.weigner.core.domain.model.Character
 import com.weigner.core.domain.model.Comic
+import com.weigner.core.domain.model.Event
 import com.weigner.marvel.framework.paging.CharactersPagingSource
 import javax.inject.Inject
 
@@ -18,5 +19,9 @@ class CharactersRepositoryImpl @Inject constructor(
 
     override suspend fun getComics(characterId: Int): List<Comic> {
         return remoteDataSource.fetchComics(characterId)
+    }
+
+    override suspend fun getEvents(characterId: Int): List<Event> {
+        return remoteDataSource.fetchEvents(characterId)
     }
 }
