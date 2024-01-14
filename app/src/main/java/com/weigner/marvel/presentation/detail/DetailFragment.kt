@@ -45,19 +45,26 @@ class DetailFragment : Fragment() {
         setSharedElementTransitionOnEnter()
 
         viewModel.uiState.observe(viewLifecycleOwner) {uiState ->
-            when(uiState) {
-                DetailViewModel.UiStates.Loading -> {}
+            binding.flipperDetail.displayedChild = when(uiState) {
+                DetailViewModel.UiStates.Loading -> FLIPPER_CHILD_POSITION_LOADING
                 is DetailViewModel.UiStates.Success -> {
                     binding.recyclerParentDetail.run {
                         setHasFixedSize(true)
                         adapter = DetailParentAdapter(uiState.detailParentList, imageLoader)
                     }
+                    FLIPPER_CHILD_POSITION_DETAIL
                 }
-                DetailViewModel.UiStates.Error -> {}
+                DetailViewModel.UiStates.Error -> {
+                    binding.includeErrorView.buttonRetry.setOnClickListener {
+                        viewModel.getCharactersCategories(detailViewArg.characterId)
+                    }
+                    FLIPPER_CHILD_POSITION_ERROR
+                }
+                DetailViewModel.UiStates.Empty -> FLIPPER_CHILD_POSITION_EMPTY
             }
         }
 
-        viewModel.getComics(detailViewArg.characterId)
+        viewModel.getCharactersCategories(detailViewArg.characterId)
     }
 
     private fun setSharedElementTransitionOnEnter() {
@@ -70,5 +77,12 @@ class DetailFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object {
+        private const val FLIPPER_CHILD_POSITION_LOADING = 0
+        private const val FLIPPER_CHILD_POSITION_DETAIL = 1
+        private const val FLIPPER_CHILD_POSITION_ERROR = 2
+        private const val FLIPPER_CHILD_POSITION_EMPTY = 3
     }
 }

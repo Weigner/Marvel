@@ -21,7 +21,7 @@ class DetailViewModel @Inject constructor(
 
     private val _uiState = MutableLiveData<UiStates>()
     val uiState: LiveData<UiStates> get() = _uiState
-    fun getComics(characterId: Int) = viewModelScope.launch {
+    fun getCharactersCategories(characterId: Int) = viewModelScope.launch {
         getCharacterCategoriesUseCase(GetCharacterCategoriesUseCase.GetComicsParams(characterId))
             .watchStatus()
     }
@@ -56,7 +56,13 @@ class DetailViewModel @Inject constructor(
                             }
                         }
 
-                        UiStates.Success(detailParentList)
+                        if (detailParentList.isNotEmpty()) {
+                            UiStates.Success(detailParentList)
+                        } else {
+                            UiStates.Empty
+                        }
+
+
                     }
 
                     is ResultStatus.Error -> UiStates.Error
@@ -69,5 +75,6 @@ class DetailViewModel @Inject constructor(
         object Loading : UiStates()
         data class Success(val detailParentList: List<DetailParentVE>) : UiStates()
         object Error : UiStates()
+        object Empty : UiStates()
     }
 }

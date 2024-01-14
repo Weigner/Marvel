@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Heroes Marvel</string>
+    <string name="common_no_results_found">No results found</string>
 
     <string name="app_menu_heroes">Heroes</string>
     <string name="app_menu_favorites">Favorites</string>
     <string name="app_menu_about">About</string>
 
     <string name="characters_screen_title">Characters</string>
-    <string name="characters_no_results_found">No results found</string>
 
     <string name="favorites_screen_title">Favorites</string>
     <string name="favorites_no_products_in_the_list">No heroes in the favorite list</string>
@@ -14,7 +14,7 @@
     <string name="about_screen_title">About</string>
     <string name="about_attribution">Data provided by Marvel. © 2021 Marvel</string>
 
-    <string name="error_loading_characters">Error when trying to load Heroes</string>
+    <string name="error_loading_data">Error when trying to load data</string>
 
     <string name="common_try_again">Try again</string>
     <string name="error_loading_more_try_again">Error when trying to load the next page. Try again</string>
