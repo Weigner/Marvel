@@ -1,3 +1,4 @@
 rootProject.name = "marvel-app"
 include ':app'
 include ':core'
+include ':testing'
