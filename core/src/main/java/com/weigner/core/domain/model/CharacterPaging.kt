@@ -1,6 +1,6 @@
 package com.weigner.core.domain.model
 
-data class CharactersPaging(
+data class CharacterPaging(
     val offset: Int,
     val total: Int,
     val characters: List<Character>

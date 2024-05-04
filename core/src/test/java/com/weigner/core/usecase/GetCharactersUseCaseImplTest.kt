@@ -40,7 +40,7 @@ class GetCharactersUseCaseImplTest {
 
     @Before
     fun setUp() {
-        getCharactersUseCase = GetCharactersUseCaseImpl(repository)
+        getCharactersUseCase = GetCharactersUseCase(repository)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

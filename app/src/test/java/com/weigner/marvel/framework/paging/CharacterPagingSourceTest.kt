@@ -5,8 +5,7 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.whenever
 import com.weigner.core.data.repository.CharactersRemoteDataSource
 import com.weigner.core.domain.model.Character
-import com.weigner.marvel.factory.response.DataWrapperResponseFactory
-import com.weigner.marvel.framework.network.response.DataWrapperResponse
+import com.weigner.marvel.factory.response.CharacterPagingFactory
 import com.weigner.testing.MainCoroutineRule
 import com.weigner.testing.model.CharacterFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -19,17 +18,17 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 
+@ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class CharactersPagingSourceTest {
+class CharacterPagingSourceTest {
 
-    @ExperimentalCoroutinesApi
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
     @Mock
-    lateinit var remoteDataSource: CharactersRemoteDataSource<DataWrapperResponse>
+    lateinit var remoteDataSource: CharactersRemoteDataSource
 
-    private val dataWrapperResponseFactory = DataWrapperResponseFactory()
+    private val characterPagingFactory = CharacterPagingFactory()
 
     private val characterFactory = CharacterFactory()
 
@@ -40,12 +39,11 @@ class CharactersPagingSourceTest {
         charactersPagingSource = CharactersPagingSource(remoteDataSource, "")
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `should return a success load result when load is called`() =
         runBlockingTest {
             // Arrange
-            whenever(remoteDataSource.fetchCharacters(any())).thenReturn(dataWrapperResponseFactory.create())
+            whenever(remoteDataSource.fetchCharacters(any())).thenReturn(characterPagingFactory.create())
 
 
             // Act
@@ -70,7 +68,6 @@ class CharactersPagingSourceTest {
             )
         }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun `should return a error load result when load is called`() = runBlockingTest {
 
