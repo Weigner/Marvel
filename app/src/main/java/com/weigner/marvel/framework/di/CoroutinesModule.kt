@@ -1,6 +1,7 @@
 package com.weigner.marvel.framework.di
 
 import com.weigner.core.usecase.base.AppCoroutinesDispatchers
+import com.weigner.core.usecase.base.CoroutinesDispatchers
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -9,12 +10,8 @@ import kotlinx.coroutines.Dispatchers
 
 @Module
 @InstallIn(SingletonComponent::class)
-object CoroutinesModule {
+interface CoroutinesModule {
 
     @Provides
-    fun provideDispatchers() = AppCoroutinesDispatchers(
-        Dispatchers.IO,
-        Dispatchers.Default,
-        Dispatchers.Main
-    )
+    fun bindDispatchers(dispatchers: AppCoroutinesDispatchers): CoroutinesDispatchers
 }

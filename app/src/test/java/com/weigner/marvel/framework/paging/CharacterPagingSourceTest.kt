@@ -9,7 +9,7 @@ import com.weigner.marvel.factory.response.CharacterPagingFactory
 import com.weigner.testing.MainCoroutineRule
 import com.weigner.testing.model.CharacterFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -41,7 +41,7 @@ class CharacterPagingSourceTest {
 
     @Test
     fun `should return a success load result when load is called`() =
-        runBlockingTest {
+        runTest {
             // Arrange
             whenever(remoteDataSource.fetchCharacters(any())).thenReturn(characterPagingFactory.create())
 
@@ -69,7 +69,7 @@ class CharacterPagingSourceTest {
         }
 
     @Test
-    fun `should return a error load result when load is called`() = runBlockingTest {
+    fun `should return a error load result when load is called`() = runTest {
 
         val exception = RuntimeException()
         whenever(remoteDataSource.fetchCharacters(any()))

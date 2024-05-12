@@ -3,7 +3,7 @@ package com.weigner.core.usecase
 import com.weigner.core.data.repository.CharactersRepository
 import com.weigner.core.domain.model.Comic
 import com.weigner.core.domain.model.Event
-import com.weigner.core.usecase.base.AppCoroutinesDispatchers
+import com.weigner.core.usecase.base.CoroutinesDispatchers
 import com.weigner.core.usecase.base.ResultStatus
 import com.weigner.core.usecase.base.UseCase
 import kotlinx.coroutines.async
@@ -20,13 +20,13 @@ interface GetCharacterCategoriesUseCase {
 
 class GetCharacterCategoriesUseCaseImpl @Inject constructor(
     private val repository: CharactersRepository,
-    private val dispatchers: AppCoroutinesDispatchers
+    private val dispatchers: CoroutinesDispatchers
 ) : GetCharacterCategoriesUseCase,
     UseCase<GetCharacterCategoriesUseCase.GetComicsParams, Pair<List<Comic>, List<Event>>>() {
     override suspend fun doWork(
         params: GetCharacterCategoriesUseCase.GetComicsParams
     ): ResultStatus<Pair<List<Comic>, List<Event>>> {
-        return withContext(dispatchers.io) {
+        return withContext(dispatchers.io()) {
             val comicsDeferred = async { repository.getComics(params.characterId) }
             val eventsDeferred = async { repository.getEvents(params.characterId) }
 
