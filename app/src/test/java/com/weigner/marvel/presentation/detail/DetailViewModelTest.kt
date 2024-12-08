@@ -7,6 +7,7 @@ import com.nhaarman.mockitokotlin2.isA
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.weigner.core.domain.model.Comic
+import com.weigner.core.domain.model.Event
 import com.weigner.core.usecase.GetCharacterCategoriesUseCase
 import com.weigner.core.usecase.base.ResultStatus
 import com.weigner.marvel.R
@@ -114,13 +115,32 @@ class DetailViewModelTest {
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `should notify uiState with Empty from UiState when get character categories returns an empty result list`() {
-        // TODO: Implement tests
+        return runTest {
+            //Arrange
+            whenever(getCharacterCategoriesUseCase.invoke(any()))
+                .thenReturn(flowOf(ResultStatus.Success(emptyList<Comic>() to emptyList())))
+            //Act
+            detailViewModel.getCharactersCategories(character.id)
+
+            //Assert
+            verify(uiStateObserve).onChanged(isA<DetailViewModel.UiStates.Empty>())
+        }
     }
 
     @Test
     fun `should notify uiState with Error from UiState when get character categories returns an exception`() {
-        // TODO: Implement tests
+        return runTest {
+            //Arrange
+            whenever(getCharacterCategoriesUseCase.invoke(any()))
+                .thenReturn(flowOf(ResultStatus.Error(Throwable())))
+            //Act
+            detailViewModel.getCharactersCategories(character.id)
+
+            //Assert
+            verify(uiStateObserve).onChanged(isA<DetailViewModel.UiStates.Error>())
+        }
     }
 }
