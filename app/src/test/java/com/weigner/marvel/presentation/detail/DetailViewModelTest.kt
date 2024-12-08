@@ -6,6 +6,7 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.isA
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
+import com.weigner.core.domain.model.Comic
 import com.weigner.core.usecase.GetCharacterCategoriesUseCase
 import com.weigner.core.usecase.base.ResultStatus
 import com.weigner.marvel.R
@@ -95,7 +96,22 @@ class DetailViewModelTest {
 
     @Test
     fun `should notify uiState with Success from UiState when get character categories returns only events`() {
-        // TODO: Implement tests
+        return runTest {
+            //Arrange
+            whenever(getCharacterCategoriesUseCase.invoke(any()))
+                .thenReturn(flowOf(ResultStatus.Success(emptyList<Comic>() to events)))
+            //Act
+            detailViewModel.getCharactersCategories(character.id)
+
+            //Assert
+            verify(uiStateObserve).onChanged(isA<DetailViewModel.UiStates.Success>())
+
+            val uiStateSuccess = detailViewModel.uiState.value as DetailViewModel.UiStates.Success
+            val categoriesParentList = uiStateSuccess.detailParentList
+
+            assertEquals(1, categoriesParentList.size)
+            assertEquals(R.string.details_events_category, categoriesParentList[0].categoryStringResId)
+        }
     }
 
     @Test
