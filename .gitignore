@@ -111,3 +111,4 @@ apikey.properties
 /testing/build/kotlin/testingjar-classes.txt
 /testing/build/libs/testing.jar
 /testing/build/tmp/jar/MANIFEST.MF
+/.idea/androidTestResultsUserPreferences.xml
