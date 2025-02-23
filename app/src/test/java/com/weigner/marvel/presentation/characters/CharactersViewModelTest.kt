@@ -1,23 +1,15 @@
 package com.weigner.marvel.presentation.characters
 
 import androidx.paging.PagingData
-import androidx.paging.map
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.whenever
-import com.weigner.core.domain.model.Character
 import com.weigner.core.usecase.GetCharactersUseCase
 import com.weigner.testing.MainCoroutineRule
 import com.weigner.testing.model.CharacterFactory
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.count
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runBlockingTest
-import kotlinx.coroutines.test.setMain
-import org.junit.After
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -25,12 +17,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
-import java.lang.RuntimeException
 
 @RunWith(MockitoJUnitRunner::class)
 class CharactersViewModelTest {
 
-    @ExperimentalCoroutinesApi
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
@@ -55,7 +45,7 @@ class CharactersViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `should validate the paging data object values when calling charactersPagingData`() = runBlockingTest {
+    fun `should validate the paging data object values when calling charactersPagingData`() = runTest {
 
         whenever(
             getCharactersUseCase.invoke(any())
@@ -73,7 +63,7 @@ class CharactersViewModelTest {
 
     @ExperimentalCoroutinesApi
     @Test(expected = RuntimeException::class)
-    fun `should throw an exception when the calling to the use case returns an exception`() = runBlockingTest {
+    fun `should throw an exception when the calling to the use case returns an exception`() = runTest {
 
         whenever(getCharactersUseCase.invoke(any()))
             .thenThrow(RuntimeException())

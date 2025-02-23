@@ -1,7 +1,7 @@
 package com.weigner.marvel.framework.di
 
-import com.weigner.core.usecase.GetCharactersUseCase
-import com.weigner.core.usecase.GetCharactersUseCaseImpl
+import com.weigner.core.usecase.GetCharacterCategoriesUseCase
+import com.weigner.core.usecase.GetCharacterCategoriesUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,7 +12,7 @@ import dagger.hilt.android.components.ViewModelComponent
 interface UseCaseModule {
 
     @Binds
-    fun bindCharactersUseCase(useCase: GetCharactersUseCaseImpl): GetCharactersUseCase
-
-
+    fun bindGetComicsUseCase(
+        useCase: GetCharacterCategoriesUseCaseImpl
+    ): GetCharacterCategoriesUseCase
 }
