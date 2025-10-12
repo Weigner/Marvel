@@ -9,7 +9,7 @@ import javax.inject.Inject
 class FavoriteRepositoryImpl @Inject constructor(
     private val favoriteLocalDataSource: FavoriteLocalDataSource
 ) : FavoritesRepository {
-    override suspend fun getAll(): Flow<List<Character>> {
+    override fun getAll(): Flow<List<Character>> {
         return favoriteLocalDataSource.getAll()
     }
 

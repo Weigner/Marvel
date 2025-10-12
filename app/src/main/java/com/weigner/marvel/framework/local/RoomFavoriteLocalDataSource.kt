@@ -12,7 +12,7 @@ import javax.inject.Inject
 class RoomFavoriteLocalDataSource @Inject constructor(
     private val favoriteDao: FavoriteDao
 ) : FavoriteLocalDataSource {
-    override suspend fun getAll(): Flow<List<Character>> {
+    override fun getAll(): Flow<List<Character>> {
         return favoriteDao.loadFavorites().map {
             it.toCharactersModel()
         }

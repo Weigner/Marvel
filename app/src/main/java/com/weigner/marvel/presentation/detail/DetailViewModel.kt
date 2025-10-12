@@ -13,6 +13,7 @@ import com.weigner.core.usecase.base.ResultStatus
 import com.weigner.marvel.R
 import com.weigner.marvel.presentation.extentions.watchStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -77,7 +78,7 @@ class DetailViewModel @Inject constructor(
             )
     }
 
-    private fun updateFavorite(detailViewArg: DetailViewArg) = viewModelScope.launch {
+    fun updateFavorite(detailViewArg: DetailViewArg) = viewModelScope.launch {
         detailViewArg.run {
             addFavoriteUseCase.invoke(
                 AddFavoriteUseCase.Params(characterId, name, imageUrl)
@@ -104,5 +105,9 @@ class DetailViewModel @Inject constructor(
     sealed class FavoriteUiStates {
         object Loading : FavoriteUiStates()
         class FavoriteIcon(@DrawableRes val icon: Int) : FavoriteUiStates()
+    }
+
+    companion object {
+        const val DELAY = 1000L
     }
 }

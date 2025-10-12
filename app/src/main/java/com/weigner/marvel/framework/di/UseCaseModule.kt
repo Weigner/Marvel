@@ -1,6 +1,7 @@
 package com.weigner.marvel.framework.di
 
 import com.weigner.core.usecase.AddFavoriteUseCase
+import com.weigner.core.usecase.AddFavoriteUseCaseImpl
 import com.weigner.core.usecase.GetCharacterCategoriesUseCase
 import com.weigner.core.usecase.GetCharacterCategoriesUseCaseImpl
 import dagger.Binds
@@ -18,5 +19,5 @@ interface UseCaseModule {
     ): GetCharacterCategoriesUseCase
 
     @Binds
-    fun bindAddFavoriteUseCase(useCase: GetCharacterCategoriesUseCaseImpl): AddFavoriteUseCase
+    fun bindAddFavoriteUseCase(useCase: AddFavoriteUseCaseImpl): AddFavoriteUseCase
 }
