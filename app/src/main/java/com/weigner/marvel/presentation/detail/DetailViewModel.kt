@@ -9,6 +9,7 @@ import com.weigner.core.domain.model.Comic
 import com.weigner.core.domain.model.Event
 import com.weigner.core.usecase.AddFavoriteUseCase
 import com.weigner.core.usecase.GetCharacterCategoriesUseCase
+import com.weigner.core.usecase.base.CoroutinesDispatchers
 import com.weigner.core.usecase.base.ResultStatus
 import com.weigner.marvel.R
 import com.weigner.marvel.presentation.extentions.watchStatus
@@ -21,8 +22,11 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val getCharacterCategoriesUseCase: GetCharacterCategoriesUseCase,
-    private val addFavoriteUseCase: AddFavoriteUseCase
+    private val addFavoriteUseCase: AddFavoriteUseCase,
+    coroutinesDispatchers: CoroutinesDispatchers
 ) : ViewModel() {
+
+    val categories = UiActionStateLiveData(coroutinesDispatchers.main(), getCharacterCategoriesUseCase)
 
     private val _uiState = MutableLiveData<UiStates>()
     val uiState: LiveData<UiStates> get() = _uiState
