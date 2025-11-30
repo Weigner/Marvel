@@ -54,7 +54,7 @@ class FavoriteUiActionStateLiveData(
     sealed class UiState {
         object Loading : UiState()
         data class Icon(@DrawableRes val icon: Int) : UiState()
-        data class Error(@StringRes val messageResIs: Int) : UiState()
+        data class Error(@StringRes val messageResId: Int) : UiState()
     }
 
     sealed class Action {
