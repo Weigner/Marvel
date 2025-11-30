@@ -7,7 +7,7 @@ import com.nhaarman.mockitokotlin2.isA
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.weigner.core.domain.model.Comic
-import com.weigner.core.domain.model.Event
+import com.weigner.core.usecase.AddFavoriteUseCase
 import com.weigner.core.usecase.GetCharacterCategoriesUseCase
 import com.weigner.core.usecase.base.ResultStatus
 import com.weigner.marvel.R
@@ -40,7 +40,10 @@ class DetailViewModelTest {
     private lateinit var getCharacterCategoriesUseCase: GetCharacterCategoriesUseCase
 
     @Mock
-    private lateinit var uiStateObserve: Observer<DetailViewModel.UiStates>
+    private lateinit var addFavoriteUseCase: AddFavoriteUseCase
+
+    @Mock
+    private lateinit var uiStateObserve: Observer<UiActionStateLiveData.UiStates>
 
     private lateinit var detailViewModel: DetailViewModel
 
@@ -48,10 +51,15 @@ class DetailViewModelTest {
     private val comics = listOf(ComicFactory().create(ComicFactory.FakeComic.FakeComic1))
     private val events = listOf(EventFactory().create(EventFactory.FakeEvent.FakeEvent1))
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
-        detailViewModel = DetailViewModel(getCharacterCategoriesUseCase)
-        detailViewModel.uiState.observeForever(uiStateObserve)
+        detailViewModel = DetailViewModel(
+            getCharacterCategoriesUseCase,
+            addFavoriteUseCase,
+            mainCoroutineRule.testDispatcherProvider
+        )
+        detailViewModel.categories.state.observeForever(uiStateObserve)
     }
 
     @Test
@@ -61,12 +69,12 @@ class DetailViewModelTest {
             whenever(getCharacterCategoriesUseCase.invoke(any()))
                 .thenReturn(flowOf(ResultStatus.Success(comics to events)))
             //Act
-            detailViewModel.getCharactersCategories(character.id)
+            detailViewModel.categories.load(character.id)
 
             //Assert
-            verify(uiStateObserve).onChanged(isA<DetailViewModel.UiStates.Success>())
+            verify(uiStateObserve).onChanged(isA<UiActionStateLiveData.UiStates.Success>())
 
-            val uiStateSuccess = detailViewModel.uiState.value as DetailViewModel.UiStates.Success
+            val uiStateSuccess = detailViewModel.categories.state.value as UiActionStateLiveData.UiStates.Success
             val categoriesParentList = uiStateSuccess.detailParentList
 
             assertEquals(2, categoriesParentList.size)
@@ -82,12 +90,12 @@ class DetailViewModelTest {
             whenever(getCharacterCategoriesUseCase.invoke(any()))
                 .thenReturn(flowOf(ResultStatus.Success(comics to emptyList())))
             //Act
-            detailViewModel.getCharactersCategories(character.id)
+            detailViewModel.categories.load(character.id)
 
             //Assert
-            verify(uiStateObserve).onChanged(isA<DetailViewModel.UiStates.Success>())
+            verify(uiStateObserve).onChanged(isA<UiActionStateLiveData.UiStates.Success>())
 
-            val uiStateSuccess = detailViewModel.uiState.value as DetailViewModel.UiStates.Success
+            val uiStateSuccess = detailViewModel.categories.state.value as UiActionStateLiveData.UiStates.Success
             val categoriesParentList = uiStateSuccess.detailParentList
 
             assertEquals(1, categoriesParentList.size)
@@ -102,12 +110,12 @@ class DetailViewModelTest {
             whenever(getCharacterCategoriesUseCase.invoke(any()))
                 .thenReturn(flowOf(ResultStatus.Success(emptyList<Comic>() to events)))
             //Act
-            detailViewModel.getCharactersCategories(character.id)
+            detailViewModel.categories.load(character.id)
 
             //Assert
-            verify(uiStateObserve).onChanged(isA<DetailViewModel.UiStates.Success>())
+            verify(uiStateObserve).onChanged(isA<UiActionStateLiveData.UiStates.Success>())
 
-            val uiStateSuccess = detailViewModel.uiState.value as DetailViewModel.UiStates.Success
+            val uiStateSuccess = detailViewModel.categories.state.value as UiActionStateLiveData.UiStates.Success
             val categoriesParentList = uiStateSuccess.detailParentList
 
             assertEquals(1, categoriesParentList.size)
@@ -123,10 +131,10 @@ class DetailViewModelTest {
             whenever(getCharacterCategoriesUseCase.invoke(any()))
                 .thenReturn(flowOf(ResultStatus.Success(emptyList<Comic>() to emptyList())))
             //Act
-            detailViewModel.getCharactersCategories(character.id)
+            detailViewModel.categories.load(character.id)
 
             //Assert
-            verify(uiStateObserve).onChanged(isA<DetailViewModel.UiStates.Empty>())
+            verify(uiStateObserve).onChanged(isA<UiActionStateLiveData.UiStates.Empty>())
         }
     }
 
@@ -137,10 +145,10 @@ class DetailViewModelTest {
             whenever(getCharacterCategoriesUseCase.invoke(any()))
                 .thenReturn(flowOf(ResultStatus.Error(Throwable())))
             //Act
-            detailViewModel.getCharactersCategories(character.id)
+            detailViewModel.categories.load(character.id)
 
             //Assert
-            verify(uiStateObserve).onChanged(isA<DetailViewModel.UiStates.Error>())
+            verify(uiStateObserve).onChanged(isA<UiActionStateLiveData.UiStates.Error>())
         }
     }
 }
