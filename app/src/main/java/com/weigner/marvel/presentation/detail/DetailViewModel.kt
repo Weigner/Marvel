@@ -27,6 +27,7 @@ class DetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     val categories = UiActionStateLiveData(coroutinesDispatchers.main(), getCharacterCategoriesUseCase)
+    val favorite = FavoriteUiActionStateLiveData(coroutinesDispatchers.main(), addFavoriteUseCase)
 
     private val _uiState = MutableLiveData<UiStates>()
     val uiState: LiveData<UiStates> get() = _uiState
