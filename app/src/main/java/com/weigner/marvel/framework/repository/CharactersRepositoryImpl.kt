@@ -1,5 +1,6 @@
-package com.weigner.marvel.framework
+package com.weigner.marvel.framework.repository
 
+/*
 import androidx.paging.PagingSource
 import com.weigner.core.data.repository.CharactersRemoteDataSource
 import com.weigner.core.data.repository.CharactersRepository
@@ -25,3 +26,4 @@ class CharactersRepositoryImpl @Inject constructor(
         return remoteDataSource.fetchEvents(characterId)
     }
 }
+*/

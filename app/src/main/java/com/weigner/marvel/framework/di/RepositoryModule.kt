@@ -1,10 +1,9 @@
 package com.weigner.marvel.framework.di
 
-import com.weigner.core.data.repository.CharactersRemoteDataSource
-import com.weigner.core.data.repository.CharactersRepository
-import com.weigner.marvel.framework.CharactersRepositoryImpl
-import com.weigner.marvel.framework.network.response.DataWrapperResponse
-import com.weigner.marvel.framework.remote.RetrofitCharactersDataSource
+import com.weigner.core.data.repository.EpisodesRemoteDataSource
+import com.weigner.core.data.repository.EpisodesRepository
+import com.weigner.marvel.framework.remote.RetrofitEpisodesDataSource
+import com.weigner.marvel.framework.repository.EpisodesRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,8 +14,8 @@ import dagger.hilt.components.SingletonComponent
 interface RepositoryModule {
 
     @Binds
-    fun bindCharacterRepository(repository: CharactersRepositoryImpl): CharactersRepository
+    fun bindEpisodeRepository(repository: EpisodesRepositoryImpl): EpisodesRepository
 
     @Binds
-    fun bindRemoteDataSource(dataSource: RetrofitCharactersDataSource): CharactersRemoteDataSource
+    fun bindRemoteDataSource(dataSource: RetrofitEpisodesDataSource): EpisodesRemoteDataSource
 }

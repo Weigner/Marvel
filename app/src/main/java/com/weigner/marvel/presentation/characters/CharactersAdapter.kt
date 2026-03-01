@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.weigner.core.domain.model.Character
+import com.weigner.core.domain.model.Episode
 import com.weigner.marvel.framework.imageLoader.ImageLoader
 import com.weigner.marvel.util.OnCharacterItemClick
 import javax.inject.Inject
@@ -12,7 +13,7 @@ import javax.inject.Inject
 class CharactersAdapter constructor(
     private val imageLoader: ImageLoader,
     private val onItemClick: OnCharacterItemClick
-) : PagingDataAdapter<Character, CharactersViewHolder>(diffCallback) {
+) : PagingDataAdapter<Episode, CharactersViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharactersViewHolder {
         return CharactersViewHolder.create(parent, imageLoader, onItemClick)
@@ -25,12 +26,14 @@ class CharactersAdapter constructor(
     }
 
     companion object {
-        private val diffCallback = object : DiffUtil.ItemCallback<Character>() {
-            override fun areItemsTheSame(oldItem: Character, newItem: Character): Boolean {
-                return oldItem.name == newItem.name
+        private val diffCallback = object : DiffUtil.ItemCallback<Episode>() {
+            var i = 0
+            override fun areItemsTheSame(oldItem: Episode, newItem: Episode): Boolean {
+                i++
+                return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Character, newItem: Character): Boolean {
+            override fun areContentsTheSame(oldItem: Episode, newItem: Episode): Boolean {
                 return oldItem == newItem
             }
 

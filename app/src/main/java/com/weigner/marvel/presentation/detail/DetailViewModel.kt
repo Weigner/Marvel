@@ -4,8 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.weigner.core.domain.model.Comic
-import com.weigner.core.domain.model.Event
+import com.weigner.core.domain.model.Episode
 import com.weigner.core.usecase.GetCharacterCategoriesUseCase
 import com.weigner.core.usecase.base.ResultStatus
 import com.weigner.marvel.R
@@ -27,7 +26,7 @@ class DetailViewModel @Inject constructor(
             .watchStatus()
     }
 
-    private fun Flow<ResultStatus<Pair<List<Comic>, List<Event>>>>.watchStatus() =
+    private fun Flow<ResultStatus<Pair<List<Episode>, List<Episode>>>>.watchStatus() =
         viewModelScope.launch {
             collect { status ->
                 _uiState.value = when (status) {

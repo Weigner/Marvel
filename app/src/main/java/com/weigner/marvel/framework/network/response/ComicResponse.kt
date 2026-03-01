@@ -1,7 +1,7 @@
 package com.weigner.marvel.framework.network.response
 
+/*
 import com.google.gson.annotations.SerializedName
-import com.weigner.core.domain.model.Comic
 
 data class ComicResponse(
     @SerializedName("id")
@@ -16,4 +16,4 @@ fun ComicResponse.toComicModel(): Comic {
         id = this.id,
         imageUrl = this.thumbnail.getHttpsUrl()
     )
-}
+}*/

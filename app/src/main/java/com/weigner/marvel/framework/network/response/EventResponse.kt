@@ -1,8 +1,7 @@
 package com.weigner.marvel.framework.network.response
 
+/*
 import com.google.gson.annotations.SerializedName
-import com.weigner.core.domain.model.Comic
-import com.weigner.core.domain.model.Event
 
 data class EventResponse(
     @SerializedName("id")
@@ -17,4 +16,4 @@ fun EventResponse.toEventModel(): Event {
         id = this.id,
         imageUrl = this.thumbnail.getHttpsUrl()
     )
-}
+}*/

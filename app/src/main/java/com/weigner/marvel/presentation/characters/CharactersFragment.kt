@@ -45,7 +45,7 @@ class CharactersFragment : Fragment() {
 
         lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.charactersPagingData("").collect { pagingData ->
+                viewModel.charactersPagingData().collect { pagingData ->
                     charactersAdapter.submitData(pagingData)
                 }
             }
@@ -55,12 +55,12 @@ class CharactersFragment : Fragment() {
     private fun initCharactersAdapter() {
         charactersAdapter = CharactersAdapter(imageLoader) { character, view ->
             val extras = FragmentNavigatorExtras(
-                view to character.name
+                view to "character.name"
             )
 
             val directions = CharactersFragmentDirections.actionCharactersFragmentToDetailFragment(
-                character.name,
-                DetailViewArg(character.id, character.name, character.imageUrl)
+                "character.name",
+                DetailViewArg(character.id, "character.name", character.imageUrl)
             )
 
             findNavController().navigate(directions, extras)

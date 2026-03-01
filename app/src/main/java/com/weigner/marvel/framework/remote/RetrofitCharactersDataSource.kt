@@ -1,5 +1,6 @@
 package com.weigner.marvel.framework.remote
 
+/*
 import com.weigner.core.data.repository.CharactersRemoteDataSource
 import com.weigner.core.domain.model.CharacterPaging
 import com.weigner.core.domain.model.Comic
@@ -18,8 +19,7 @@ class RetrofitCharactersDataSource @Inject constructor(
         val characters = data.results.map {
             it.toCharacterModel()
         }
-        return CharacterPaging(
-            data.offset,
+        return EpisodePaging(
             data.total,
             characters
         )
@@ -36,4 +36,4 @@ class RetrofitCharactersDataSource @Inject constructor(
             it.toEventModel()
         }
     }
-}
+}*/

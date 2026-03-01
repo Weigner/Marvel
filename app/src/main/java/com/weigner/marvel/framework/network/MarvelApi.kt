@@ -1,7 +1,7 @@
 package com.weigner.marvel.framework.network
 
+/*
 import com.weigner.marvel.framework.network.response.CharacterResponse
-import com.weigner.marvel.framework.network.response.ComicResponse
 import com.weigner.marvel.framework.network.response.DataWrapperResponse
 import com.weigner.marvel.framework.network.response.EventResponse
 import retrofit2.http.GET
@@ -27,4 +27,4 @@ interface MarvelApi {
         @Path("characterId")
         characterId: Int
     ): DataWrapperResponse<EventResponse>
-}
+}*/

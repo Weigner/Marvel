@@ -2,43 +2,36 @@ package com.weigner.marvel.framework.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.weigner.core.data.repository.CharactersRemoteDataSource
-import com.weigner.core.domain.model.Character
+import com.weigner.core.data.repository.EpisodesRemoteDataSource
+import com.weigner.core.domain.model.Episode
 
 class CharactersPagingSource(
-    private val remoteDataSource: CharactersRemoteDataSource,
-    private val query: String
-) : PagingSource<Int, Character>() {
+    private val remoteDataSource: EpisodesRemoteDataSource,
+) : PagingSource<Int, Episode>() {
 
     @Suppress("TooGenericExceptionCaught")
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Character> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Episode> {
         return try {
-            val offset = params.key ?: 0
-
+            val nextPageNumber = params.key ?: 1
             val queries = hashMapOf(
-                "offset" to offset.toString()
+                "page" to nextPageNumber
             )
+            val episodePaging = remoteDataSource.fetchEpisodes(queries)
 
-            if (query.isNotEmpty()) {
-                queries["nameStartWith"] = query
-            }
-
-            val characterPaging = remoteDataSource.fetchCharacters(queries)
-
-            val responseOffset = characterPaging.offset
-            val totalCharacters = characterPaging.total
+            val nextPage = episodePaging.nextPage.substringAfter("page=").toInt()
+            val prevPage = episodePaging.previousPage?.substringAfter("page=")?.toInt()
 
             LoadResult.Page(
-                data = characterPaging.characters,
-                prevKey = null,
-                nextKey = if (responseOffset < totalCharacters) responseOffset + LIMIT else null
+                data = episodePaging.episodes,
+                prevKey = prevPage,
+                nextKey = nextPage
             )
         } catch (e: Exception) {
             return LoadResult.Error(e)
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Character>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, Episode>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(LIMIT) ?: anchorPage?.nextKey?.minus(LIMIT)

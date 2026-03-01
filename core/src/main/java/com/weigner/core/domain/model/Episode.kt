@@ -1,6 +1,6 @@
 package com.weigner.core.domain.model
 
-data class Comic(
+data class Episode(
     val id: Int,
     val imageUrl: String
 )

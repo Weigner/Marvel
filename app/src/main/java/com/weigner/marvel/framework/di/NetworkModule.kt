@@ -2,7 +2,7 @@ package com.weigner.marvel.framework.di
 
 import com.weigner.marvel.framework.network.interceptor.AuthorizationInterceptor
 import com.weigner.marvel.BuildConfig
-import com.weigner.marvel.framework.network.MarvelApi
+import com.weigner.marvel.framework.network.RickAndMortyApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,11 +45,11 @@ object NetworkModule {
     @Provides
     fun provideOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
-        authorizationInterceptor: AuthorizationInterceptor
+//        authorizationInterceptor: AuthorizationInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
-            .addInterceptor(authorizationInterceptor)
+//            .addInterceptor(authorizationInterceptor)
             .readTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .connectTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .build()
@@ -64,12 +64,12 @@ object NetworkModule {
     fun provideRetrofit(
         okHttpClient: OkHttpClient,
         converterFactory: GsonConverterFactory
-    ): MarvelApi {
+    ): RickAndMortyApi {
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL_RICK_AND_MORTY)
             .client(okHttpClient)
             .addConverterFactory(converterFactory)
             .build()
-            .create(MarvelApi::class.java)
+            .create(RickAndMortyApi::class.java)
     }
 }

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.weigner.core.domain.model.Character
+import com.weigner.core.domain.model.Episode
 import com.weigner.marvel.databinding.ItemCharacterBinding
 import com.weigner.marvel.framework.imageLoader.ImageLoader
 import com.weigner.marvel.util.OnCharacterItemClick
@@ -17,9 +18,9 @@ class CharactersViewHolder(
     private val textName = itemCharactersBinding.textName
     private val imageCharacter = itemCharactersBinding.imageCharacter
 
-    fun bind(character: Character) {
-        textName.text = character.name
-        imageCharacter.transitionName = character.name
+    fun bind(character: Episode) {
+//        textName.text = character.name
+//        imageCharacter.transitionName = character.name
         imageLoader.load(imageCharacter, character.imageUrl)
 
         itemView.setOnClickListener {
